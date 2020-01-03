@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] float padding = 1f;
     [SerializeField] GameObject laserPrefab;
     [SerializeField] float laserSpeed = 20f;
+    [SerializeField] float projectileFiringPeriod=.1f;
+    Coroutine firingcoroutine;
 
     float xMin;
     float xMax;
@@ -20,7 +22,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(test());
+        
         setPlayerBounds();
     }
 
@@ -39,14 +41,16 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1")==true)
         {
+          firingcoroutine =  StartCoroutine( FireContinuosly());
+            
             //my instinct would have been to have a laser script in order to manipulate the laser
             // would be interested in the pros and cons vs this way of controlling the laser through this script
-            GameObject laser = 
-                Instantiate(laserPrefab, transform.position, Quaternion.identity)
-                as GameObject;
-            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+            
 
-
+        }
+        if (Input.GetButtonUp("Fire1")==true)
+        {
+            StopCoroutine(firingcoroutine);
         }
     }
 
@@ -71,11 +75,16 @@ public class Player : MonoBehaviour
 
     
     
-    IEnumerator test() 
+    IEnumerator FireContinuosly() 
     {
-        print("test1");
-        yield return new WaitForSeconds(3f);
-        print("test dos");
+        while (true)
+        {
+            GameObject laser =
+                  Instantiate(laserPrefab, transform.position, Quaternion.identity)
+                  as GameObject;
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+            yield return new WaitForSeconds(projectileFiringPeriod);
+        }
     }
     
 }
