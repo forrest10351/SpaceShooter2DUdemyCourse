@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] List<Transform> EnemyMovementPath;
+    List<Transform> EnemyMovementPath;
     [SerializeField] float moveSpeed = 2f;
+    [SerializeField] WaveConfig waveConfig;
     
     int wayPointIndex = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        EnemyMovementPath = waveConfig.GetWaypoints();
         transform.position = EnemyMovementPath[wayPointIndex].transform.position;
     }
 
