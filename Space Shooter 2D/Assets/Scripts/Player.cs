@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] float playerSpeed = 10f;
     [SerializeField] float padding = 1f;
+    [SerializeField] int playerHealth = 200;
+    [Header("Projectile")]
     [SerializeField] GameObject laserPrefab;
     [SerializeField] float laserSpeed = 20f;
     [SerializeField] float projectileFiringPeriod=.1f;
@@ -86,5 +89,20 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(projectileFiringPeriod);
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
+        ProcessHit(damageDealer);
+    }
+
+    private void ProcessHit(DamageDealer damageDealer)
+    {
+        playerHealth -= damageDealer.GetDamage();
+        damageDealer.Hit();
+        if(playerHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
