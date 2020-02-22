@@ -126,6 +126,8 @@ MonoBehaviour:
   health: 100
   shotCounter: 0
   minTimeBetweenShots: 0.2
-  maxTimeBetweenShots: 0.2
+  maxTimeBetweenShots: 0.8
   laser: {fileID: 3220733896975212074, guid: afc62c6db9fce4f46a47c63072c66946, type: 3}
   laserSpeed: -5
+  particleDeathEffect: {fileID: 3199389200335278958, guid: 62afa5eeee08a1e4aba1d46b4e02a793,
+    type: 3}
